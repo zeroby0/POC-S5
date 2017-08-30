@@ -1,0 +1,11 @@
+dt = 0.001;
+time = -2:dt:3;
+t1 = -2:dt:-1;
+t2 = 1:dt:3;
+x1 = ones(1/dt, 1).*3;
+x2 = ones(2/dt, 1).*4;
+[time, convolution] = contconv(x1, x2, t1(1), t2(1), dt);
+plot(time, convolution);
+xlabel ("time");
+ylabel ("Magnitude");
+title ("Verification of contconv");
