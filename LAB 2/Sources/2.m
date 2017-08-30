@@ -10,11 +10,11 @@ function [convolution, time] = contconv (x1, x2, t1, t2, dt)
   endTime = Tstop1 + Tstop2;
   
   time = startTime:dt:endTime;
-  t = 1
+
   convolution = conv(x1,x2).*dt;
 endfunction
 
-function [time, result, filtered] = getSignalPair () 
+function [time, signal, signal_filtered, time_filtered] = getSignalPair ()
   % get signal and filtered signal
   resolution = 0.001;
 
@@ -27,16 +27,19 @@ function [time, result, filtered] = getSignalPair ()
   third = ones((1/resolution)+1, 1);
   third = third.*(-3);
 
-  result = vertcat(first, second, third);
-  filtered = result(end:-1:1);
-
+  signal = vertcat(first, second, third); % u(t)
   time = [1:resolution:4];
+
+  signal_filtered = signal(end:-1:1); % reversing magnitudes
+  time_filtered = time(end:-1:1).*(-1); %reverse and multiply my -1
 endfunction
 
-[time, signal, filtered] = getSignalPair();
+[time, signal, signal_filtered, time_filtered] = getSignalPair();
 
-[result, time] = contconv(signal, filtered, time(1), time(1), 0.001);
-plot(time, result);
+[convoluted_signal, convoluted_time] = contconv(signal, signal_filtered, time(1), time_filtered(1), 0.001);
+
+plot(convoluted_time, convoluted_signal);
+
 xlabel("time");
 ylabel("magnitude");
 title("Convolution of u(t) and u(-t)");

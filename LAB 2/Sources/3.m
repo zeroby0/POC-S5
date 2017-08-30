@@ -16,7 +16,7 @@ endfunction
 
 function [times, magnitudes] = timeInvert(timeVct, magnitudeVct)
   magnitudes = magnitudeVct(end:-1:1);
-  times = timeVct.*(-1);
+  times = timeVct(end:-1:1).*(-1);
 endfunction
 
 % v(t) = I[-1, 2] + 2I[0, 1]
@@ -40,17 +40,17 @@ Rsignal2 = real(signal2);
 Isignal = imag(signal);
 Isignal2 = imag(signal2);
 
-plot(time, Rsignal, time2, Rsignal2);
-xlabel("Time");
-ylabel("Magnitude (Real)")
-title("Real part of s(t) and s*(-t)");
-legend("y = Real( s(t) )", "y = Real( s*(-t) )", "Location", "southwest")
-
-%plot(time, Isignal, time2, Isignal2);
+%plot(time, Rsignal, time2, Rsignal2);
 %xlabel("Time");
-%ylabel("Magnitude (Imaginary)")
-%title("Imaginary part of s(t) and s*(-t)");
-%legend("y = Imag( s(t) )", "y = Imag( s*(-t) )")
+%ylabel("Amplitude (Real)")
+%title("Real part of s(t) and s*(-t)");
+%legend("y = Real( s(t) )", "y = Real( s*(-t) )", "Location", "southwest")
+
+plot(time, Isignal, time2, Isignal2);
+xlabel("Time");
+ylabel("Amplitude (Imaginary)")
+title("Imaginary part of s(t) and s*(-t)");
+legend("y = Imag( s(t) )", "y = Imag( s*(-t) )")
 
 
 

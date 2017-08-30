@@ -49,7 +49,11 @@ resolution = 0.001
 [time2, signal2] = timeInvert(time, signal);
 signal2 = conj(signal2);
 
-[signalC, timeC] = contconv(signal, signal2, time, time2, resolution); 
+timeS = time.+2;  %timeshifting.
+signalS = signal.*exp(i*pi/4);
+
+[signalC, timeC] = contconv(signalS, signal2, timeS, time2, resolution);
+
 
 %plot(timeC, real(signalC));
 %xlabel("Time");
