@@ -23,7 +23,7 @@ function [time, signal] = getU (arrayLength, dt)
 end
 
 arrayLength = 10;
-dt = 0.001;
+dt = 0.0001;
 
 [time1, Uc] = getU (arrayLength, dt);
 [time2, Us] = getU (arrayLength, dt);
@@ -75,7 +75,7 @@ function [times, magnitudes] = getSignal(Tstart, Tend, dt, scalars)
 endfunction
 
 
-theta = 0; % in Radians
+theta = pi/4; % in Radians
 
 I_mask = arrayfun(@(t) 2*cos(40*pi*t + theta), time1);
 I_unfiltered = Up.*I_mask';

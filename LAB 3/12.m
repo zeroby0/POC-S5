@@ -23,7 +23,7 @@ function [time, signal] = getU (arrayLength, dt)
 end
 
 arrayLength = 10;
-dt = 0.005;
+dt = 0.001;
 
 [time1, Uc] = getU (arrayLength, dt);
 [time2, Us] = getU (arrayLength, dt);
