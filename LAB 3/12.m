@@ -23,16 +23,18 @@ function [time, signal] = getU (arrayLength, dt)
 end
 
 arrayLength = 10;
-dt = 0.001;
+dt = 0.005;
 
 [time1, Uc] = getU (arrayLength, dt);
 [time2, Us] = getU (arrayLength, dt);
 
 carrier = arrayfun(@(t) cos(40*pi*t), time1);
 
-up = Uc.*carrier;
+Up = Uc.*carrier';
+size(Up)
 
-plot(time1 , Uc);
+
+plot(time1 , Up);
 
 xlabel("Time");
 ylabel("Magnitude");
