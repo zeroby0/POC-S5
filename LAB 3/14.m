@@ -42,17 +42,6 @@ Up = UpIP.-UpQC; % Up
 
 % ______________________________________________________________________________
 
-theta = 0; % in Radians
-
-I_mask = arrayfun(@(t) 2*cos(40*pi*t + theta), time1);
-
-I_unfiltered = Up.*I_mask';
-
-Q_mask = arrayfun(@(t) 2*sin(40*pi*t + theta), time1);
-
-Q_unfiltered = Up.*Q_mask';
-
-
 function [convolution, time] = contconv (x1, x2, t1, t2, dt)
   % continous convolution
   Tstart1 = t1;
@@ -85,14 +74,28 @@ function [times, magnitudes] = getSignal(Tstart, Tend, dt, scalars)
   magnitudes = getMagnitudes(Tend - Tstart, dt, scalars);
 endfunction
 
+
+theta = 0; % in Radians
+
+I_mask = arrayfun(@(t) 2*cos(40*pi*t + theta), time1);
+I_unfiltered = Up.*I_mask';
+
+Q_mask = arrayfun(@(t) 2*sin(40*pi*t + theta), time1);
+Q_unfiltered = Up.*Q_mask';
+
+% generating filter impulse response
+% I(0, 0.25)
 [time_response, response] = getSignal(0, 0.25, dt, [1]);
 
-
+% Filtered inphase component
 [I_filtered, time_I_filtered] = contconv(I_unfiltered, response, time1(1), time_response(1), dt);
 
+% Filtered Quadrature component
+[Q_filtered, time_Q_filtered] = contconv(Q_unfiltered, response, time2(1), time_response(1), dt);
 
 
 plot(time_I_filtered, I_filtered);
+% plot(time_Q_filtered, Q_filtered);
 
 xlabel("Time");
 ylabel("Magnitude");
