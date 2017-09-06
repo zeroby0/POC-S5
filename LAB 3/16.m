@@ -23,13 +23,15 @@ function [time, signal] = getU (arrayLength, dt)
 end
 
 arrayLength = 10;
-dt = 0.0001;
+dt = 0.001;
+
+src_theta = 0;
 
 [time1, Uc] = getU (arrayLength, dt);
 [time2, Us] = getU (arrayLength, dt);
 
-carrier_IP = arrayfun(@(t) cos(40*pi*t), time1); %in phase carrier
-carrier_QC = arrayfun(@(t) sin(40*pi*t), time1); %Q component
+carrier_IP = arrayfun(@(t) cos(40*pi*t + src_theta), time1); %in phase carrier
+carrier_QC = arrayfun(@(t) sin(40*pi*t + src_theta), time1); %Q component
 
 UpIP = Uc.*carrier_IP';
 UpQC = Us.*carrier_QC';
@@ -77,8 +79,11 @@ endfunction
 
 theta = pi/4; % in Radians
 
+theta_genie = pi/4;
+
 I_mask = arrayfun(@(t) 2*cos(40*pi*t + theta), time1);
 I_unfiltered = Up.*I_mask';
+
 
 Q_mask = arrayfun(@(t) 2*sin(40*pi*t + theta), time1);
 Q_unfiltered = Up.*Q_mask';
@@ -93,8 +98,16 @@ Q_unfiltered = Up.*Q_mask';
 % Filtered Quadrature component
 [Q_filtered, time_Q_filtered] = contconv(Q_unfiltered, response, time2(1), time_response(1), dt);
 
+% complex envelope at reciever
+CE_rec = I_filtered.+i*Q_filtered;
 
-plot(time_I_filtered, I_filtered);
+% complex envelope at sender
+CE_trs = CE_rec.*exp(i*-theta_genie);
+
+I_recovered = real(CE_trs);
+Q_recovered = imag(CE_trs);
+
+plot(time_I_filtered, Q_recovered);
 % plot(time_Q_filtered, Q_filtered);
 
 xlabel("Time");

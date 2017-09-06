@@ -1,4 +1,5 @@
 function [array] = randomArray (arrayLength)
+  % creates Random Array from arrayLength
   array = rand(arrayLength, 1);
   for i = 1:length(array)
     if (array(i) < 0.5)
@@ -9,7 +10,9 @@ function [array] = randomArray (arrayLength)
   end
 end
 
+
 function [time, signal] = getU (arrayLength, dt)
+  % creates a random time domain binary signal
   temp_signal = randomArray(arrayLength);
   
   signal = ones(arrayLength, 1/dt);
