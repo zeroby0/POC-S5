@@ -1,4 +1,3 @@
-
 function [X,f,df] = contFT(x,tstart,dt,df_desired)
 %Use Matlab DFT for approximate computation of continuous time Fourier %transform
 %INPUTS
