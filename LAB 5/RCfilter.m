@@ -1,6 +1,10 @@
 %% RCFilter: function description
 function [time_f, signal_f] = RCfilter(time, signal, RC = 0.383)
 	% t_response = 0:ns/length(time):ns;
+	
+	% 1/fc < RC < 1/b
+	% b = 1.5 KHz
+
 	t_response = time;
 
 	dt = 1/40;
