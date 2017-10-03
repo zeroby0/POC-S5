@@ -2,7 +2,7 @@
 function [freq_magSquaredU, magSquaredU] = PSD(numberOfSamples, Symbols, symbolRate)
 
 	ns = numberOfSamples;
-	m=symbolRate; %sampling rate as multiple of symbol rate
+	m = symbolRate; %sampling rate as multiple of symbol rate
 	symbols = Symbols;
 
 
