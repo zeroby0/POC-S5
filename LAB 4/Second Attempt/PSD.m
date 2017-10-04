@@ -1,5 +1,5 @@
 %% PSD: Returns the Power Spectral Density of a signal
-function [freq_psd, psd] = PSD(symbols, m = 100, t_plot = false)
+function [freq_psd, psd, time_message, message] = PSD(symbols, m = 100, t_plot = false)
 	% code fragment 2.3.2 - page 45
 	s = 1; % Symbol time - in milli seconds
 
@@ -7,11 +7,15 @@ function [freq_psd, psd] = PSD(symbols, m = 100, t_plot = false)
 	time_p = 0:1/m:s;
 	p = sin(pi*time_p);
 
+	% "time_p & p"
+	% size(time_p)
+	% size(p)
+
 	if t_plot
 		subplot(3, 1, 1);
 		plot(time_p, p);
 		title("Reference Signal");
-		xlabel("Time");
+		xlabel("Time (mS)");
 		ylabel("Amplitude");
 	end
 
@@ -24,19 +28,24 @@ function [freq_psd, psd] = PSD(symbols, m = 100, t_plot = false)
 	symbols_upsampled = zeros(nsymbols_upsampled, 1);
 	symbols_upsampled(1:m*s:nsymbols_upsampled) = symbols; % Inserting symbols with spacing m
 
-	u = conv(symbols_upsampled, p);
+	u = conv(symbols_upsampled, p)';
 	time_u = 0:1/m:(length(u) - 1)/m;
+
+	% "time_u & u"
+	% size(time_u)
+	% size(u)
 
 	if t_plot
 		subplot(3, 1, 2);
 		plot(time_u, u);
 		str_title = cstrcat("Modulated signal. Message = ", mat2str(symbols));
 		title(str_title);
-		xlabel("Time");
+		xlabel("Time (mS)");
 		ylabel("Amplitude");
 	end
-		
-		
+
+	message = u;
+	time_message = time_u;	
 
 	% Calculating PSD
 
@@ -44,16 +53,20 @@ function [freq_psd, psd] = PSD(symbols, m = 100, t_plot = false)
 
 	% Extracting one column from U
 	% U is a matrix with the same column repeated
-	U = U(:, 1)';
+	% U = U(:, 1)';
 
 	psd = abs(U).^2.*(m/nsymbols);
 	freq_psd = freq_U;
+
+	% "freq_psd, psd"
+	% size(freq_psd)
+	% size(psd)
 
 	if t_plot
 		subplot(3, 1, 3);
 		plot(freq_psd, psd);
 		title("Power Spectral Density");
-		xlabel("Frequency");
+		xlabel("Frequency (kHz)");
 		ylabel("Magnitude");
 		xlim([-2, 2]);
 		print -dpng psd.png;
