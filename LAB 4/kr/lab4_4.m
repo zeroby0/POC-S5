@@ -37,3 +37,5 @@ xlabel ("f in kHz");
 ylabel ("PSD(X)"); 
 grid();
 title ("Power Spectral Density of DSB signal");
+
+print -dpng dsb_psd.png

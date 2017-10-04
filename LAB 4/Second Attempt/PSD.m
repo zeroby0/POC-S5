@@ -1,10 +1,10 @@
 %% PSD: Returns the Power Spectral Density of a signal
-function [freq_psd, psd, time_message, message] = PSD(symbols, m = 100, t_plot = false)
+function [freq_psd, psd, time_message, message] = PSD(symbols, m = 100, t_plot = false, dt = 1/1000)
 	% code fragment 2.3.2 - page 45
 	s = 1; % Symbol time - in milli seconds
 
 	% Reference Signal
-	time_p = 0:1/m:s;
+	time_p = 0:s/m:s;
 	p = sin(pi*time_p);
 
 	% "time_p & p"
@@ -29,7 +29,7 @@ function [freq_psd, psd, time_message, message] = PSD(symbols, m = 100, t_plot =
 	symbols_upsampled(1:m*s:nsymbols_upsampled) = symbols; % Inserting symbols with spacing m
 
 	u = conv(symbols_upsampled, p)';
-	time_u = 0:1/m:(length(u) - 1)/m;
+	time_u = 0:s/m:(length(u) - 1)*s/m;
 
 	% "time_u & u"
 	% size(time_u)
@@ -49,13 +49,9 @@ function [freq_psd, psd, time_message, message] = PSD(symbols, m = 100, t_plot =
 
 	% Calculating PSD
 
-	[U, freq_U, df_acquired] = contFT(u, time_u(1), 1/m, 1);
+	[U, freq_U, df_acquired] = contFT(u, time_u(1), 1/m, dt);
 
-	% Extracting one column from U
-	% U is a matrix with the same column repeated
-	% U = U(:, 1)';
-
-	psd = abs(U).^2.*(m/nsymbols);
+	psd = abs(U).^2.*(1/(nsymbols*dt));
 	freq_psd = freq_U;
 
 	% "freq_psd, psd"

@@ -3,7 +3,6 @@ function [time, dsb, time_m, message] = DSB(symbols, m = 100, fc = 10, t_plot = 
 	[_, _, time_m, message] = PSD(symbols, m, t_plot);
 	dsb = message.*cos(2*pi*fc*time_m);
 	time = time_m;
-	t_plot = true
 	if t_plot
 		subplot(3, 1, 3);
 		plot(time, dsb);

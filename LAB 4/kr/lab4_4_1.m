@@ -1,4 +1,4 @@
-+T=1;
+T=1;
 m=40; %sampling rate as multiple of symbol rate
 %discrete time representation of sine pulse
 time_p = 0:T/m:T; %sampling times over duration of pulse
@@ -36,6 +36,7 @@ for i=1:1:no_avg
   end
   end
 X_avg=X_avg/no_avg;
+print -dpng all_dspsd.png
 %time_u = 0:T/m:((length(u)-1)*T)/m; %unit of time = symbol time T
 %plot(time_u,u);
 %plot(time_p,p);
@@ -47,3 +48,5 @@ ylabel ("PSD(X_average)");
 grid();
 title("Average of power spectral densities of DSB over multiple inputs");
 %plot(freqHz,abs(X));
+
+print -dpng mean_dspsd.png
